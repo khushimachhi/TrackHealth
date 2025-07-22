@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.track_health.ui.theme.TrackHealthTheme
 import com.example.track_health.data.database.HabitDatabase
 import com.example.track_health.data.repository.HabitRepository
-import com.example.track_health.ui.screens.HabitScreen
 import com.example.track_health.viewmodel.HabitViewModel
 import com.example.track_health.viewmodel.HabitViewModelFactory
 

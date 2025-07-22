@@ -10,10 +10,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.track_health.data.entities.Habit
-import com.example.track_health.data.repository.HabitRepository
 import com.example.track_health.viewmodel.HabitViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun HabitScreen(viewModel: HabitViewModel, onAddClick: () -> Unit) {
     val habits by viewModel.habits.collectAsState(initial = emptyList()) // ✅ NEW
