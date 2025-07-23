@@ -15,6 +15,9 @@ fun AddHabitScreen(viewModel: HabitViewModel, onHabitAdded: () -> Unit) {
     var category by remember { mutableStateOf("") }
     var reminderTime by remember { mutableStateOf("") }
     var frequency by remember { mutableStateOf("") }
+    var targetValueInput by remember { mutableStateOf("") }
+    var unit by remember { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
@@ -50,14 +53,33 @@ fun AddHabitScreen(viewModel: HabitViewModel, onHabitAdded: () -> Unit) {
             singleLine = true
         )
 
+        OutlinedTextField(
+            value = targetValueInput,
+            onValueChange = { targetValueInput = it },
+            label = { Text("Target Value") },
+            singleLine = true
+        )
+
+        OutlinedTextField(
+            value = unit,
+            onValueChange = { unit = it },
+            label = { Text("Unit (e.g., steps, glasses)") },
+            singleLine = true
+        )
+
+
+
         Button(
-            onClick = {
+            onClick = {    val targetValue = targetValueInput.toIntOrNull() ?: 0
                 val habit = Habit(
                     id = 0,
                     name = name,
                     category = category,
-                    reminderTime = reminderTime,
-                    frequency = frequency.toIntOrNull() ?: 1
+                    currentValue = 0,
+                    targetValue = targetValue,
+                    unit = unit,
+                    frequency = frequency.toIntOrNull() ?: 1,
+                    reminderTime = reminderTime
                 )
                 viewModel.addHabit(habit)
                 onHabitAdded()
