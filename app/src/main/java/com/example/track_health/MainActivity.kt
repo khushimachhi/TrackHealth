@@ -1,5 +1,6 @@
 package com.example.track_health
 
+import com.example.track_health.TrackHealthNavGraph
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -29,19 +30,15 @@ class MainActivity : ComponentActivity() {
         val viewModelFactory = HabitViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[HabitViewModel::class.java]
 
-       
 
-        // Set the UI content
+
+
         setContent {
             TrackHealthTheme {
-                HabitScreen(
-                    viewModel = viewModel,
-                    onAddClick = {
-                        // TODO: Add navigation or logic to handle add habit screen
-                    }
-                )
+                TrackHealthNavGraph(viewModel = viewModel)
             }
         }
+
 
     }
 }

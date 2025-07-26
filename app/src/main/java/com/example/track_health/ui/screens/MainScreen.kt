@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,12 +33,16 @@ fun MainScreen(
     val today = remember { LocalDate.now() }
     var selectedDate by remember { mutableStateOf(today) }
 
+
+
+
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(16.dp)) {
+        .padding(35.dp)) {
 
         // Calendar Row
         CalendarBar(selectedDate = selectedDate, onDateSelected = { selectedDate = it })
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -62,13 +67,19 @@ fun MainScreen(
 @Composable
 fun CalendarBar(selectedDate: LocalDate, onDateSelected: (LocalDate) -> Unit) {
     val days = (0..6).map { LocalDate.now().minusDays((3 - it).toLong()) }
-    LazyRow {
+    LazyRow(horizontalArrangement = Arrangement.SpaceEvenly) {
         items(days) { date ->
             val isSelected = date == selectedDate
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .clickable { onDateSelected(date) },
+                    .padding(8.dp)
+                    .clickable { onDateSelected(date) }
+                    .background(
+                        if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+                        else Color.Transparent,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -79,13 +90,14 @@ fun CalendarBar(selectedDate: LocalDate, onDateSelected: (LocalDate) -> Unit) {
                 )
                 Text(
                     text = date.dayOfMonth.toString(),
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                 )
             }
         }
     }
 }
+
 
 @Composable
 fun HabitList(habits: List<Habit>, onHabitClick: (Habit) -> Unit) {
@@ -94,25 +106,43 @@ fun HabitList(habits: List<Habit>, onHabitClick: (Habit) -> Unit) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 4.dp)
+                    .padding(vertical = 6.dp)
                     .clickable { onHabitClick(habit) },
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD)),
+                shape = RoundedCornerShape(16.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
             ) {
                 Row(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text(text = habit.name, fontWeight = FontWeight.Bold)
-                        Text(text = "${habit.currentValue}/${habit.targetValue} ${habit.unit}")
-
+                        Text(
+                            text = habit.name,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp,
+                            color = Color(0xFF0D47A1)
+                        )
+                        Text(
+                            text = "${habit.currentValue}/${habit.targetValue} ${habit.unit}",
+                            color = Color.DarkGray,
+                            fontSize = 14.sp
+                        )
                     }
-                    Text(text = "🔥 ${habit.streakCount} Days")
+                    Text(
+                        text = "🔥 ${habit.streakCount} Days",
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFFF57C00)
+                    )
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun SummaryRow(steps: Int, stepGoal: Int, water: Int, waterGoal: Int) {
@@ -128,18 +158,50 @@ fun SummaryRow(steps: Int, stepGoal: Int, water: Int, waterGoal: Int) {
     }
 }
 
+
+
+@Composable
+fun SummaryCard(label: String, value: String) {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFE0F7FA)),
+        elevation = CardDefaults.cardElevation(2.dp),
+        shape = RoundedCornerShape(12.dp),
+        modifier = Modifier
+            .padding(4.dp)
+            .width(150.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = label, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(text = value, fontSize = 16.sp, color = Color.DarkGray)
+        }
+    }
+}
+
 @Composable
 fun ActionButtons(onAddHabitClick: () -> Unit, onCompletedHabitsClick: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Button(onClick = onCompletedHabitsClick) {
+        OutlinedButton(
+            onClick = onCompletedHabitsClick,
+            shape = RoundedCornerShape(50.dp)
+        ) {
             Text("View Completed")
         }
-        Button(onClick = onAddHabitClick) {
+
+        Button(
+            onClick = onAddHabitClick,
+            shape = RoundedCornerShape(50.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            )
+        ) {
             Text("Add Habit")
         }
-        // Add a third button if needed
     }
 }

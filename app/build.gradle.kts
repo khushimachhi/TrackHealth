@@ -58,6 +58,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     implementation(libs.transport.api)
     implementation(libs.androidx.navigation.runtime.android)
+    implementation(libs.androidx.foundation.android)
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
 
@@ -75,6 +76,15 @@ dependencies {
     implementation("com.jakewharton.threetenabp:threetenabp:1.4.5")
     implementation ("com.jakewharton.threetenabp:threetenabp:1.4.5")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation ("androidx.navigation:navigation-compose:2.7.0")
+
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.compose.foundation:foundation:1.6.0")
+
 
 
 }
